@@ -2,9 +2,9 @@ import pathlib, setuptools
 
 setuptools.setup(
     name='j2gpt-template',
-    version='0.1.0',
+    version='0.2.0',
     description='Create LLM pipelines with ease!',
-    long_description=pathlib.Path('README.md').read_text(),
+    long_description=pathlib.Path('README.md').read_text(encoding='UTF-8'),
     long_description_content_type='text/markdown',
     url='https://github.com/yaz008/j2gpt-template',
     author='Emelianov Artem',
