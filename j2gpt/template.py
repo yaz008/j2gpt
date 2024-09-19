@@ -36,12 +36,15 @@ class J2:
             exit(code=0)
         self._callback = callback
 
-    def ask(self,
-            name: str,
-            subs: dict[str, str]) -> str:
+    def _assemble_template(self,
+                           name: str,
+                           subs: dict[str, str]) -> str:
         template: str = _load_template(path=f'{self.base_path}\\{name}.j2')
         vars: dict[str, str] = _get_vars(j2=template)
         prompt: str = _substitute(j2=template, subs=subs, vars=vars)
+        return prompt
+
+    def _ask(self, prompt: str) -> str:
         with client(on_receive=self._callback,
                     timeout=None,
                     host=self.host,
@@ -53,3 +56,10 @@ class J2:
                 response: str = RESPONSE
                 RESPONSE = None
                 return response
+
+    def ask(self, task: str, vars: dict[str, str]) -> str:
+        prompt: str = self._assemble_template(name=task, subs=vars)
+        return self._ask(prompt=prompt)
+    
+    def get(self, task: str, vars: dict[str, str]) -> str:
+        return self._assemble_template(name=task, subs=vars)
